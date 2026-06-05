@@ -1,0 +1,17 @@
+<div class="lang-switcher dropdown">
+  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-translate me-1"></i>
+    {{ LANGUAGES[get_locale()] }}
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    {% for code, label in LANGUAGES.items() %}
+    <li>
+      <a class="dropdown-item {% if get_locale() == code %}active{% endif %}"
+         href="{{ url_for('auth.set_language', lang=code) }}">
+        {{ label }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

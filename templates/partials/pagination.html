@@ -1,0 +1,34 @@
+{% if pagination and pagination.pages > 1 %}
+{% set params = request.args.to_dict() %}
+<nav class="pagination-bar mt-3" aria-label="Pagination">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <span class="text-muted small">
+      {{ _('common.page') }} {{ pagination.page }} {{ _('common.of') }} {{ pagination.pages }}
+      ({{ pagination.total }} {{ _('common.items') }})
+    </span>
+    <ul class="pagination pagination-sm mb-0">
+      {% set prev_params = params.copy() %}
+      {% set _ = prev_params.update({'page': pagination.page - 1}) %}
+      <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for(request.endpoint, **prev_params) }}">
+          {{ _('common.prev') }}
+        </a>
+      </li>
+      {% for p in range(1, pagination.pages + 1) %}
+      {% set page_params = params.copy() %}
+      {% set _ = page_params.update({'page': p}) %}
+      <li class="page-item {% if p == pagination.page %}active{% endif %}">
+        <a class="page-link" href="{{ url_for(request.endpoint, **page_params) }}">{{ p }}</a>
+      </li>
+      {% endfor %}
+      {% set next_params = params.copy() %}
+      {% set _ = next_params.update({'page': pagination.page + 1}) %}
+      <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for(request.endpoint, **next_params) }}">
+          {{ _('common.next') }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endif %}
