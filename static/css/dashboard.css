@@ -1,0 +1,123 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับแดชบอร์ด และการ์ดสถิติ (Dashboard & Stat Cards)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── การ์ดแสดงสถิติ ── */
+.stat-card {
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  position: relative;
+  background: var(--surface);
+}
+
+/* ── สีแสดงสถานะบนของการ์ด ── */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-card .card-body {
+  padding: 1.25rem 1.35rem;
+}
+
+/* ── ป้ายสำหรับการ์ดสถิติ ── */
+.stat-card .stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+/* ── ค่าตัวเลขของสถิติ ── */
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* ── ไอคอนของสถิติ ── */
+.stat-card .stat-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+/* ── การ์ดสถิติทั้งหมด (สีม่วง) ── */
+.stat-card.stat-total::before {
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+}
+
+.stat-card.stat-total .stat-value {
+  color: #4f46e5;
+}
+
+.stat-card.stat-total .stat-icon {
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366f1;
+}
+
+/* ── การ์ดสถิติที่รอการอนุมัติ (สีเหลืองส้ม) ── */
+.stat-card.stat-pending::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.stat-card.stat-pending .stat-value {
+  color: var(--warning);
+}
+
+.stat-card.stat-pending .stat-icon {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+/* ── การ์ดสถิติที่อนุมัติแล้ว (สีเขียว) ── */
+.stat-card.stat-approved::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.stat-card.stat-approved .stat-value {
+  color: var(--success);
+}
+
+.stat-card.stat-approved .stat-icon {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+/* ── การ์ดสถิติที่ปฏิเสธ (สีแดง) ── */
+.stat-card.stat-rejected::before {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.stat-card.stat-rejected .stat-value {
+  color: var(--danger);
+}
+
+.stat-card.stat-rejected .stat-icon {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}

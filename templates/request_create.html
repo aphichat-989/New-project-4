@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}{{ _('request.create_title') }} — {{ factory_name() }}{% endblock %}
+{% block page_title %}{{ _('request.create_title') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <div class="card content-card">
+      <div class="card-header">
+        <h6 class="mb-0"><i class="bi bi-file-earmark-plus me-1"></i> {{ _('request.create_title') }}</h6>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.requester_name') }} *</label>
+              <input type="text" name="requester_name" class="form-control" required
+                     value="{{ default.requester_name }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.contact_phone') }} *</label>
+              <input type="tel" name="contact_phone" class="form-control" required
+                     value="{{ default.contact_phone }}"
+                     placeholder="{{ _('request.contact_phone_ph') }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.department') }} *</label>
+              <select name="department" class="form-select" required>
+                {% for code in departments %}
+                <option value="{{ code }}" {% if default.department == code %}selected{% endif %}>
+                  {{ t_dept(code) }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.company') }}</label>
+              <input type="text" name="company_name" class="form-control"
+                     value="{{ default.company_name }}"
+                     placeholder="{{ _('request.company_ph') }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.permit_type') }} *</label>
+              <select name="permit_type" class="form-select" required>
+                <option value="">{{ _('request.select') }}</option>
+                {% for code in permit_types %}
+                <option value="{{ code }}">{{ t_permit(code) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.work_zone') }} *</label>
+              <select name="work_zone" class="form-select" required>
+                <option value="">{{ _('request.select') }}</option>
+                {% for code in work_zones %}
+                <option value="{{ code }}">{{ t_zone(code) }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">{{ _('request.work_detail') }}</label>
+              <input type="text" name="work_area_detail" class="form-control"
+                     placeholder="{{ _('request.work_detail_ph') }}">
+            </div>
+            <div class="col-12">
+              <label class="form-label">{{ _('request.description') }} *</label>
+              <textarea name="description" class="form-control" rows="4" required
+                        placeholder="{{ _('request.description_ph') }}"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">รูปภาพประกอบ</label>
+              <div class="image-upload-field">
+                <input type="file" name="images" id="imagesInput" class="form-control d-none"
+                       accept="image/*" capture="environment" multiple>
+                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('imagesInput').click();">
+                  <i class="bi bi-camera-fill me-1"></i> ถ่ายหรือเลือกภาพ
+                </button>
+                <small class="form-text text-muted mt-2">แนบรูปภาพได้สูงสุด 6 ไฟล์ (jpg, jpeg, png, gif)</small>
+              </div>
+              <div id="imagePreview" class="image-preview-grid mt-3"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.start_date') }} *</label>
+              <input type="date" name="start_date" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">{{ _('request.end_date') }} *</label>
+              <input type="date" name="end_date" class="form-control" required>
+            </div>
+          </div>
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="bi bi-send me-1"></i> {{ _('request.submit') }}
+            </button>
+            <a href="{{ url_for('requests.list_requests') }}" class="btn btn-outline-secondary btn-lg">{{ _('request.cancel') }}</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const imagesInput = document.getElementById('imagesInput');
+  const imagePreview = document.getElementById('imagePreview');
+
+  if (imagesInput) {
+    imagesInput.addEventListener('change', () => {
+      imagePreview.innerHTML = '';
+      const files = Array.from(imagesInput.files).slice(0, 6);
+
+      files.forEach((file) => {
+        const reader = new FileReader();
+        const card = document.createElement('div');
+        card.className = 'image-preview-card';
+
+        const img = document.createElement('img');
+        img.alt = file.name;
+
+        reader.onload = (event) => {
+          img.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+        card.appendChild(img);
+
+        const label = document.createElement('div');
+        label.className = 'image-preview-name small text-truncate mt-2';
+        label.textContent = file.name;
+        card.appendChild(label);
+
+        imagePreview.appendChild(card);
+      });
+
+      if (imagesInput.files.length > 6) {
+        const note = document.createElement('div');
+        note.className = 'form-text text-warning mt-2';
+        note.textContent = 'เลือกได้สูงสุด 6 รูป';
+        imagePreview.appendChild(note);
+      }
+    });
+  }
+</script>
+{% endblock %}

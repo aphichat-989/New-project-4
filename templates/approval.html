@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ _('approval.title') }} — {{ factory_name() }}{% endblock %}
+{% block page_title %}{{ _('approval.title') }}{% endblock %}
+
+{% block content %}
+<div class="alert alert-info d-flex align-items-center mb-4">
+  <i class="bi bi-info-circle me-2 fs-5"></i>
+  <span>{{ _('approval.waiting') }} <strong>{{ current_user.role_label }}</strong></span>
+</div>
+
+<div class="table-card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>{{ _('request.no') }}</th>
+          <th>{{ _('request.requester') }}</th>
+          <th>{{ _('request.type') }}</th>
+          <th>{{ _('request.zone') }}</th>
+          <th>{{ _('approval.dates') }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td><strong class="text-primary">{{ item.request_no }}</strong></td>
+          <td>
+            {{ item.requester_name }}
+            <br><small class="text-muted">{{ t_dept(item.department) }}</small>
+            {% if item.contact_phone %}<br><small class="text-muted"><i class="bi bi-telephone"></i> {{ item.contact_phone }}</small>{% endif %}
+          </td>
+          <td>{{ item.permit_type_label }}</td>
+          <td>{{ item.zone_display }}</td>
+          <td class="text-nowrap">{{ item.start_date.strftime('%d/%m/%Y') }} — {{ item.end_date.strftime('%d/%m/%Y') }}</td>
+          <td>
+            <a href="{{ url_for('requests.detail', request_id=item.id) }}"
+               class="btn btn-primary">
+              <i class="bi bi-eye"></i> {{ _('approval.review') }}
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-center empty-state py-5">
+            <i class="bi bi-inbox display-6 d-block mb-2"></i>
+            {{ _('approval.empty') }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include 'partials/pagination.html' %}
+{% endblock %}

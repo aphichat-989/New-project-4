@@ -1,0 +1,113 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับส่วนประกอบทั่วไป 
+   (Badges, Timeline, Alerts, Workflow Steps, etc.)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── ป้ายสถานะ (Badges) ── */
+.badge-status {
+  font-size: 0.75rem;
+  padding: 0.4em 0.75em;
+  font-weight: 600;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.badge.bg-warning {
+  color: #92400e !important;
+}
+
+.badge.bg-info {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  color: #fff !important;
+}
+
+/* ── ไทม์ไลน์ (Timeline) ── */
+.timeline-item {
+  border-left: 3px solid var(--primary-light);
+  padding-left: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+/* ── จุดของไทม์ไลน์ ── */
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0.35rem;
+  width: 9px;
+  height: 9px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ── การแจ้งเตือน (Alerts) ── */
+.alert {
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+/* ── การแจ้งเตือนสำเร็จ (Success Alert) ── */
+.alert-success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+/* ── การแจ้งเตือนข้อผิดพลาด (Danger Alert) ── */
+.alert-danger {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* ── การแจ้งเตือนเตือน (Warning Alert) ── */
+.alert-warning {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+/* ── การแจ้งเตือนข้อมูลเพิ่มเติม (Info Alert) ── */
+.alert-info {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+/* ── ขั้นตอนการไหลของงาน (Workflow Steps) ── */
+.workflow-step {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ── ขั้นตอนปัจจุบัน ── */
+.workflow-step.current {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border-color: #fbbf24;
+}
+
+/* ── ขั้นตอนเสร็จสิ้น ── */
+.workflow-step.done {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+  border-color: #34d399;
+}
+
+/* ── ตัวเปลี่ยนภาษา (Language Switcher) ── */
+.lang-switcher .dropdown-toggle {
+  font-weight: 500;
+}
+
+/* ── สถานะว่างเปล่า (Empty State) ── */
+.empty-state {
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  color: #cbd5e1;
+}

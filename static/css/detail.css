@@ -1,0 +1,36 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับการแสดงรายละเอียด (Detail Fields & Request Display)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── ฟิลด์รายละเอียด ── */
+.detail-field {
+  padding: 0.5rem 0;
+}
+
+/* ── ป้ายรายละเอียด ── */
+.detail-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+}
+
+/* ── ค่าของรายละเอียด ── */
+.detail-value {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ── หมายเลขใบอนุญาต (ฟอร์นต์ Monospace) ── */
+.permit-no {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  letter-spacing: 0.02em;
+}
+
+/* ── การ์ดสำหรับพิมพ์ใบอนุญาต ── */
+.permit-print-card {
+  /* สไตล์จะถูกกำหนดไว้ใน media print */
+}

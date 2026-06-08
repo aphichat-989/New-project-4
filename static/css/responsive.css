@@ -1,0 +1,57 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับการตอบสนองต่อหน้าจอขนาดต่างๆ และการพิมพ์
+   (Responsive & Print Styles)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── สไตล์สำหรับการพิมพ์ ── */
+@media print {
+  /* ซ่อนส่วนประกอบที่ไม่จำเป็นในการพิมพ์ */
+  .sidebar,
+  .top-navbar,
+  .no-print,
+  .alert {
+    display: none !important;
+  }
+
+  /* ปรับระยะขอบของเนื้อหาหลัก */
+  .main-content {
+    margin-left: 0 !important;
+  }
+
+  /* ลบระยะขอบของเนื้อหาของหน้า */
+  .page-content {
+    padding: 0 !important;
+  }
+
+  /* สไตล์การ์ดใบอนุญาตสำหรับการพิมพ์ */
+  .permit-print-card {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+  }
+
+  /* สีพื้นหลังสำหรับการพิมพ์ */
+  body {
+    background: #fff !important;
+  }
+}
+
+/* ── สไตล์สำหรับหน้าจอเล็ก (Tablet & Mobile) ── */
+@media (max-width: 768px) {
+  /* เปลี่ยนแถบด้านข้างให้เป็นแถบด้านบน */
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    box-shadow: none;
+  }
+
+  /* ปรับระยะขอบของเนื้อหาหลัก */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* ลดระยะขอบของเนื้อหาของหน้า */
+  .page-content {
+    padding: 1rem;
+  }
+}

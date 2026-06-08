@@ -1,0 +1,32 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับหน้าประเมินความปลอดภัย (Security Checkin Page)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── การ์ดประเมินความปลอดภัย ── */
+.security-card {
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-top: 3px solid var(--success) !important;
+}
+
+/* ── การ์ดประเมินความปลอดภัยเมื่อเลื่อนเมาส์ลงมา ── */
+.security-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* ── ปุ่มการดำเนินการด้านความปลอดภัย ── */
+.security-action-btn {
+  min-height: 52px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+
+/* ── การ์ดประเมินความปลอดภัยที่ไม่ถูกต้อง ── */
+.security-card-invalid {
+  border-top-color: #94a3b8 !important;
+  opacity: 0.85;
+}
