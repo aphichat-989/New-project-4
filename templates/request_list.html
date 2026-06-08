@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ _('request.list_title') }} — {{ factory_name() }}{% endblock %}
+{% block page_title %}{{ _('request.list_title') }}{% endblock %}
+
+{% block content %}
+<div class="table-card mb-3">
+  <div class="card-body">
+    <form method="GET" class="row g-2 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label small">{{ _('request.search') }}</label>
+        <input type="text" name="q" class="form-control" value="{{ q }}"
+               placeholder="{{ _('request.search_ph') }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small">{{ _('request.status') }}</label>
+        <select name="status" class="form-select">
+          <option value="">{{ _('request.all') }}</option>
+          <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>{{ t_status('pending') }}</option>
+          <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>{{ t_status('approved') }}</option>
+          <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>{{ t_status('rejected') }}</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="bi bi-search"></i> {{ _('common.search') }}
+        </button>
+        <a href="{{ url_for('requests.list_requests') }}" class="btn btn-outline-secondary">{{ _('request.clear') }}</a>
+        {% if current_user.role in ['requester', 'admin'] %}
+        <a href="{{ url_for('requests.create') }}" class="btn btn-success float-end">
+          <i class="bi bi-plus-lg"></i> {{ _('request.create_btn') }}
+        </a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="table-card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>{{ _('request.no') }}</th>
+          <th>{{ _('request.requester') }}</th>
+          <th>{{ _('request.department') }}</th>
+          <th>{{ _('request.type') }}</th>
+          <th>{{ _('request.zone') }}</th>
+          <th>{{ _('request.dates') }}</th>
+          <th>{{ _('request.status') }}</th>
+          <th>{{ _('request.step') }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td><strong class="text-primary">{{ item.request_no }}</strong></td>
+          <td>{{ item.requester_name }}</td>
+          <td>{{ t_dept(item.department) }}</td>
+          <td>{{ item.permit_type_label }}</td>
+          <td>{{ item.zone_display }}</td>
+          <td class="small text-nowrap">{{ item.start_date.strftime('%d/%m/%Y') }} — {{ item.end_date.strftime('%d/%m/%Y') }}</td>
+          <td>
+            <span class="badge bg-{{ item.status_badge }} badge-status">{{ item.status_label }}</span>
+          </td>
+          <td>{{ item.current_step_label }}</td>
+          <td>
+            <a href="{{ url_for('requests.detail', request_id=item.id) }}"
+               class="btn btn-sm btn-outline-primary">{{ _('request.detail_btn') }}</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center text-muted py-4">{{ _('request.not_found') }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include 'partials/pagination.html' %}
+{% endblock %}

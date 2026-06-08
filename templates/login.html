@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ _('login.title') }} — {{ factory_name() }}{% endblock %}
+
+{% block guest_content %}
+<div class="login-page">
+  <div class="login-top-bar">
+    {% include 'partials/language_switcher.html' %}
+  </div>
+  <div class="card login-card">
+    <div class="login-card-header">
+      <div class="login-icon">
+        <i class="bi bi-shield-check"></i>
+      </div>
+      <h3>{{ factory_name() }}</h3>
+      <p>{{ _('app.subtitle') }}</p>
+    </div>
+    <div class="card-body">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+          <div class="alert alert-{{ category }} py-2">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('auth.login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">{{ _('login.username') }}</label>
+          <input type="text" name="username" class="form-control form-control-lg" required autofocus
+                 placeholder="{{ _('login.username_ph') }}">
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">{{ _('login.password') }}</label>
+          <input type="password" name="password" class="form-control form-control-lg" required
+                 placeholder="{{ _('login.password_ph') }}">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2 btn-lg">
+          <i class="bi bi-box-arrow-in-right me-1"></i> {{ _('login.submit') }}
+        </button>
+      </form>
+
+      {% if SHOW_DEMO_ACCOUNTS %}
+      <div class="login-demo-box mt-4">
+        <p class="small mb-2 fw-semibold demo-title">
+          <i class="bi bi-info-circle me-1"></i> {{ _('login.demo_title') }}
+        </p>
+        <ul class="small text-muted ps-3 mb-0">
+          <li>requester1 — {{ t_role('requester') }}</li>
+          <li>specialist1 — {{ t_role('specialist') }}</li>
+          <li>asst_mgr1 — {{ t_role('assistant_manager') }}</li>
+          <li>dgm1 — {{ t_role('dgm') }}</li>
+          <li>hr1 — {{ t_role('hr') }}</li>
+          <li>security1 — {{ t_role('security') }}</li>
+          <li>admin1 — {{ t_role('admin') }}</li>
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

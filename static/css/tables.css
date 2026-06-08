@@ -1,0 +1,78 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับตาราง และการ์ดแสดงเนื้อหา (Tables & Content Cards)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── การ์ดตารางข้อมูล ── */
+.table-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+/* ── ส่วนหัวของการ์ดตารางข้อมูล ── */
+.table-card .card-header {
+  background: linear-gradient(180deg, #fff, var(--surface-muted)) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+  font-weight: 600;
+  padding: 1rem 1.5rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── เนื้อหาของการ์ดตารางข้อมูล ── */
+.table-card .card-body {
+  padding: 1.35rem 1.5rem;
+}
+
+.table-card .table {
+  margin-bottom: 0;
+}
+
+/* ── ส่วนหัวของตารางข้อมูล ── */
+.table-card .table thead th {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border);
+  padding: 0.85rem 1rem;
+}
+
+/* ── เซลล์ของตารางข้อมูล ── */
+.table-card .table tbody td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-color: #f1f5f9;
+}
+
+/* ── แถวของตารางข้อมูลสำหรับมีความเป็นอ่อนนุ่ม ── */
+.table-card .table tbody tr {
+  transition: background 0.15s;
+}
+
+/* ── แถวของตารางข้อมูลเมื่อเลื่อนเมาส์ลงมา ── */
+.table-card .table tbody tr:hover {
+  background: #f0fdfa;
+}
+
+/* ── การ์ดแสดงเนื้อหา ── */
+.content-card {
+  background: var(--surface);
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+
+/* ── ส่วนหัวของการ์ดแสดงเนื้อหา ── */
+.content-card .card-header {
+  background: linear-gradient(180deg, #fff, var(--surface-muted)) !important;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}

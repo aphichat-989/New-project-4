@@ -21,6 +21,10 @@ class Config:
     TIMEZONE = os.environ.get("TIMEZONE", "Asia/Bangkok")
     ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", "20"))
 
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
     SEED_DEMO_DATA = os.environ.get("SEED_DEMO_DATA", "true").lower() == "true"
     SHOW_DEMO_ACCOUNTS = os.environ.get("SHOW_DEMO_ACCOUNTS", "true").lower() == "true"
 

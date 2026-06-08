@@ -1,0 +1,125 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์เลย์เอาต์แอปพลิเคชัน (Sidebar, Navbar, Main Content)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── เนื้อหลักของแอป ── */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ── แถบด้านข้าง ── */
+.sidebar {
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-bg-2) 100%);
+  color: #e2e8f0;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.15);
+}
+
+/* ── แบรนด์เนมของแถบด้านข้าง ── */
+.sidebar-brand {
+  padding: 1.35rem 1.5rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(90deg, rgba(45, 212, 191, 0.12), transparent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-brand i {
+  color: var(--sidebar-accent);
+  font-size: 1.3rem;
+}
+
+/* ── ลิงค์นำทางในแถบด้านข้าง ── */
+.sidebar .nav-link {
+  color: #cbd5e1;
+  padding: 0.85rem 1.5rem;
+  margin: 0.2rem 0.75rem;
+  border-radius: 14px;
+  font-weight: 500;
+  transition: transform 0.18s, background 0.18s, color 0.18s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  transform: translateX(2px);
+  border-left-color: rgba(45, 212, 191, 0.45);
+}
+
+/* ── ลิงค์นำทางที่ใช้งานอยู่ ── */
+.sidebar .nav-link.active {
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.25), rgba(13, 148, 136, 0.08));
+  color: #fff;
+  border-left-color: var(--sidebar-accent);
+  box-shadow: inset 0 0 20px rgba(45, 212, 191, 0.05);
+}
+
+.sidebar .nav-link i {
+  opacity: 0.85;
+}
+
+/* ── เส้นแบ่งในแถบด้านข้าง ── */
+.sidebar hr {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  margin: 0.75rem 1rem;
+}
+
+/* ── เนื้อหาหลัก ── */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* ── แถบนำทางด้านบน ── */
+.top-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.75);
+  padding: 1rem 1.75rem;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-navbar h5 {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── แสดงสถานะหรือข้อมูลเพิ่มเติม ── */
+.top-navbar .badge {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary)) !important;
+  font-weight: 600;
+  padding: 0.45em 0.85em;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* ── เนื้อหาของหน้า ── */
+.page-content {
+  padding: 2rem;
+  flex: 1;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+}

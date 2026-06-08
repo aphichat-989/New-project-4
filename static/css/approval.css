@@ -1,0 +1,15 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับหน้าอนุมัติ (Approval Page)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── แผงการอนุมัติ ── */
+.approval-panel {
+  border-top: 3px solid var(--warning) !important;
+}
+
+/* ── ส่วนหัวของแผงการอนุมัติ ── */
+.approval-panel .card-header {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  color: #92400e;
+  font-weight: 600;
+}

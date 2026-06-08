@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}{{ _('nav.dashboard') }} — {{ factory_name() }}{% endblock %}
+{% block page_title %}{{ _('nav.dashboard') }}{% endblock %}
+
+{% block content %}
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card stat-card stat-total">
+      <div class="card-body">
+        <div class="stat-icon"><i class="bi bi-files"></i></div>
+        <p class="stat-label">{{ _('dashboard.total') }}</p>
+        <h3 class="stat-value">{{ stats.total }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card stat-pending">
+      <div class="card-body">
+        <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+        <p class="stat-label">{{ _('dashboard.pending') }}</p>
+        <h3 class="stat-value">{{ stats.pending }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card stat-approved">
+      <div class="card-body">
+        <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+        <p class="stat-label">{{ _('dashboard.approved') }}</p>
+        <h3 class="stat-value">{{ stats.approved }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card stat-card stat-rejected">
+      <div class="card-body">
+        <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
+        <p class="stat-label">{{ _('dashboard.rejected') }}</p>
+        <h3 class="stat-value">{{ stats.rejected }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if current_user.role in ['specialist', 'assistant_manager', 'dgm', 'hr'] and stats.pending > 0 %}
+<div class="alert alert-warning d-flex align-items-center mb-4">
+  <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+  <div>
+    <strong>{{ _('dashboard.waiting_you') }}:</strong> {{ stats.pending }}
+    <a href="{{ url_for('approvals.index') }}" class="alert-link ms-2">{{ _('nav.approvals') }} →</a>
+  </div>
+</div>
+{% endif %}
+
+<div class="table-card">
+  <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <h6 class="mb-0">{{ _('dashboard.recent') }}</h6>
+    <a href="{{ url_for('requests.list_requests') }}" class="btn btn-sm btn-outline-primary">{{ _('dashboard.view_all') }}</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>{{ _('request.no') }}</th>
+          <th>{{ _('request.requester') }}</th>
+          <th>{{ _('request.zone') }}</th>
+          <th>{{ _('request.status') }}</th>
+          <th>{{ _('request.step') }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in recent %}
+        <tr>
+          <td><strong class="text-primary">{{ item.request_no }}</strong></td>
+          <td>{{ item.requester_name }}</td>
+          <td>{{ item.zone_display }}</td>
+          <td>
+            <span class="badge bg-{{ item.status_badge }} badge-status">
+              {{ item.status_label }}
+            </span>
+          </td>
+          <td>{{ item.current_step_label }}</td>
+          <td>
+            <a href="{{ url_for('requests.detail', request_id=item.id) }}"
+               class="btn btn-sm btn-outline-secondary">{{ _('request.view') }}</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">{{ _('dashboard.no_data') }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

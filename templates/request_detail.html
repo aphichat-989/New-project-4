@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}{{ req.request_no }} — {{ factory_name() }}{% endblock %}
+{% block page_title %}{{ _('request.detail_title') }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-end gap-2 mb-3 no-print">
+  <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+    <i class="bi bi-printer"></i> {{ _('request.print') }}
+  </button>
+  <a href="{{ url_for('requests.list_requests') }}" class="btn btn-outline-primary">
+    <i class="bi bi-arrow-left"></i> {{ _('request.list_title') }}
+  </a>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card content-card mb-4 permit-print-card">
+      <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+          <h5 class="mb-0 permit-no">{{ req.request_no }}</h5>
+          <small class="text-muted">{{ _('request.created_at') }}: {{ req.created_at.strftime('%d/%m/%Y %H:%M') if req.created_at else '-' }}</small>
+        </div>
+        <span class="badge bg-{{ req.status_badge }} fs-6 badge-status">{{ req.status_label }}</span>
+      </div>
+      <div class="card-body">
+        <div class="workflow-steps mb-4 no-print">
+          <p class="small text-muted mb-2 fw-semibold">{{ _('workflow.title') }}</p>
+          <div class="d-flex flex-wrap gap-2">
+            {% for step in APPROVAL_STEPS %}
+            {% set step_done = req.approvals | selectattr('approver_role', 'equalto', step) | selectattr('decision', 'equalto', 'approved') | list | length > 0 %}
+            {% set step_current = req.status == 'pending' and req.current_step == step %}
+            <span class="workflow-step {% if step_done %}done{% elif step_current %}current{% endif %}">
+              {{ t_step(step) }}
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.requester') }}</span>
+              <span class="detail-value">{{ req.requester_name }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.contact_phone') }}</span>
+              <span class="detail-value">{{ req.contact_phone or '-' }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.department') }}</span>
+              <span class="detail-value">{{ t_dept(req.department) }}</span>
+            </div>
+          </div>
+          {% if req.company_name %}
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.company') }}</span>
+              <span class="detail-value">{{ req.company_name }}</span>
+            </div>
+          </div>
+          {% endif %}
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.type') }}</span>
+              <span class="detail-value">{{ req.permit_type_label }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.zone') }}</span>
+              <span class="detail-value">{{ req.zone_display }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.start_date') }}</span>
+              <span class="detail-value">{{ req.start_date.strftime('%d/%m/%Y') }}</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.end_date') }}</span>
+              <span class="detail-value">{{ req.end_date.strftime('%d/%m/%Y') }}</span>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.description') }}</span>
+              <p class="detail-value mb-0 mt-1">{{ req.description }}</p>
+            </div>
+          </div>
+          {% if req.images %}
+          <div class="col-12">
+            <div class="detail-field">
+              <span class="detail-label">รูปภาพประกอบ</span>
+              <div class="image-detail-grid mt-3">
+                {% for image in req.images %}
+                <a href="{{ url_for('static', filename='uploads/requests/' ~ image.filename) }}" target="_blank" class="image-detail-card">
+                  <img src="{{ url_for('static', filename='uploads/requests/' ~ image.filename) }}" alt="รูปภาพ {{ loop.index }}">
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <div class="col-12">
+            <div class="detail-field">
+              <span class="detail-label">{{ _('request.current_step') }}</span>
+              <span class="badge bg-info badge-status">{{ req.current_step_label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if req.can_approve(current_user) %}
+    <div class="card content-card approval-panel no-print">
+      <div class="card-header">
+        <h6 class="mb-0"><i class="bi bi-check2-square"></i> {{ _('approval.panel') }}</h6>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('approvals.decide', request_id=req.id) }}" id="approvalForm">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="mb-3">
+            <label class="form-label">{{ _('approval.comment') }}</label>
+            <textarea name="comment" class="form-control" rows="2"></textarea>
+          </div>
+          <input type="hidden" name="decision" id="decisionInput">
+          <div class="d-flex gap-2 flex-wrap">
+            <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#approveModal">
+              <i class="bi bi-check-lg"></i> {{ _('approval.approve') }}
+            </button>
+            <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#rejectModal">
+              <i class="bi bi-x-lg"></i> {{ _('approval.reject') }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card content-card">
+      <div class="card-header">
+        <h6 class="mb-0">{{ _('request.approval_history') }}</h6>
+      </div>
+      <div class="card-body">
+        {% for ap in req.approvals %}
+        <div class="timeline-item">
+          <div class="d-flex justify-content-between">
+            <strong>{{ ap.role_label }}</strong>
+            <span class="badge bg-{{ 'success' if ap.decision == 'approved' else 'danger' }}">
+              {{ ap.decision_label }}
+            </span>
+          </div>
+          <div class="small text-muted">{{ ap.approver_name }} — {{ ap.approved_at.strftime('%d/%m/%Y %H:%M') }}</div>
+          {% if ap.comment %}<p class="small mb-0 mt-1">{{ ap.comment }}</p>{% endif %}
+        </div>
+        {% else %}
+        <p class="text-muted small mb-0">{{ _('request.no_approval') }}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if req.security_logs %}
+    <div class="card content-card mt-3">
+      <div class="card-header">
+        <h6 class="mb-0">{{ _('request.security_log') }}</h6>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for log in req.security_logs %}
+        <li class="list-group-item small">
+          <strong>{{ log.action_label }}</strong>
+          — {{ log.guard_name }}
+          <br><span class="text-muted">{{ log.logged_at.strftime('%d/%m/%Y %H:%M') }}</span>
+          {% if log.note %}<br><em>{{ log.note }}</em>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="modal fade no-print" id="approveModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ _('approval.confirm_approve') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">{{ _('approval.confirm_approve_msg', no=req.request_no) }}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('common.cancel') }}</button>
+        <button type="button" class="btn btn-success" onclick="submitDecision('approved')">{{ _('approval.confirm_btn') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade no-print" id="rejectModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ _('approval.confirm_reject') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">{{ _('approval.confirm_reject_msg', no=req.request_no) }}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('common.cancel') }}</button>
+        <button type="button" class="btn btn-danger" onclick="submitDecision('rejected')">{{ _('approval.reject_btn') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function submitDecision(value) {
+  document.getElementById('decisionInput').value = value;
+  document.getElementById('approvalForm').submit();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,116 @@
+/* ═════════════════════════════════════════════════════════════════
+   สไตล์สำหรับหน้าเข้าสู่ระบบ (Login Page)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── หน้าเข้าสู่ระบบ ── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(45, 212, 191, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(14, 165, 233, 0.12) 0%, transparent 45%),
+    linear-gradient(135deg, #0f172a 0%, #134e4a 45%, #0f766e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── ลวดลายพื้นหลังของหน้า ── */
+.login-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── การ์ดเข้าสู่ระบบ ── */
+.login-card {
+  width: 100%;
+  max-width: 500px;
+  border: none;
+  border-radius: calc(var(--radius-lg) * 1.1);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(8px);
+}
+
+/* ── ส่วนหัวของการ์ดเข้าสู่ระบบ ── */
+.login-card-header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  padding: 2rem 2rem 1.75rem;
+  text-align: center;
+}
+
+/* ── ไอคอนของหน้าเข้าสู่ระบบ ── */
+.login-card-header .login-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-card-header h3 {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.login-card-header p {
+  opacity: 0.9;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ── เนื้อหาของการ์ดเข้าสู่ระบบ ── */
+.login-card .card-body {
+  background: var(--surface);
+  padding: 2rem !important;
+}
+
+.login-card .form-control,
+.login-card .form-select,
+.login-card .form-control-lg {
+  border-radius: 14px;
+}
+
+/* ── กล่องแสดงข้อมูลทดสอบ ── */
+.login-demo-box {
+  background: linear-gradient(135deg, #f0fdfa, #ecfeff);
+  border: 1px solid #99f6e4;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+}
+
+.login-demo-box .demo-title {
+  color: var(--primary-dark);
+}
+
+/* ── แถบด้านบนของหน้าเข้าสู่ระบบ ── */
+.login-top-bar {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 2;
+}
+
+.login-top-bar .dropdown-toggle {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.login-top-bar .dropdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}

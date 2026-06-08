@@ -1,0 +1,168 @@
+/* ═════════════════════════════════════════════════════════════════
+   ตัวแปร CSS และสไตล์ทั่วไปของแอปพลิเคชัน
+   ═════════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap");
+
+/* ── ตัวแปรสีและเรื่องขนาด ── */
+:root {
+  --sidebar-width: 260px;
+
+  /* จานสีหลัก — ฟิโรซ/สีน้ำเงินเขียว (ความปลอดภัยและความเชื่อถือ) */
+  --primary: #0d9488;
+  --primary-dark: #0f766e;
+  --primary-light: #14b8a6;
+  --primary-glow: rgba(13, 148, 136, 0.25);
+
+  /* สีของแถบด้านข้าง */
+  --sidebar-bg: #0f172a;
+  --sidebar-bg-2: #1e293b;
+  --sidebar-accent: #2dd4bf;
+
+  /* สีพื้นผิว */
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  /* สีสำหรับสถานะ */
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --info: #0284c7;
+
+  /* ค่าตัวแปรการออกแบบ */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+
+  /* การปรับแต่ง Bootstrap */
+  --bs-primary: #0d9488;
+  --bs-primary-rgb: 13, 148, 136;
+  --bs-success: #059669;
+  --bs-success-rgb: 5, 150, 105;
+  --bs-warning: #d97706;
+  --bs-warning-rgb: 217, 119, 6;
+  --bs-danger: #dc2626;
+  --bs-danger-rgb: 220, 38, 38;
+  --bs-info: #0284c7;
+  --bs-info-rgb: 2, 132, 199;
+  --bs-body-font-family: "Sarabun", "Noto Sans SC", "Segoe UI", Tahoma, sans-serif;
+  --bs-border-radius: var(--radius-sm);
+  --bs-link-color: var(--primary);
+  --bs-link-hover-color: var(--primary-dark);
+}
+
+/* ── สไตล์พื้นฐาน ── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(160deg, #f0fdfa 0%, #f8fafc 40%, #eff6ff 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--bs-body-font-family);
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── ปุ่มต่างๆ ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border: none;
+  box-shadow: 0 2px 8px var(--primary-glow);
+  font-weight: 600;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 4px 14px var(--primary-glow);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10b981, var(--success));
+  border: none;
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/* ── ฟอร์มและอินพุต ── */
+.form-control,
+.form-select {
+  border-color: var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ── การอัปโหลดและแสดงตัวอย่างภาพ ── */
+.image-upload-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.image-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.9rem;
+}
+
+.image-preview-card,
+.image-detail-card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.image-preview-card img,
+.image-detail-card img {
+  width: 100%;
+  display: block;
+  height: 120px;
+  object-fit: cover;
+}
+
+.image-preview-name {
+  padding: 0.5rem 0.65rem 0.75rem;
+  color: var(--text-muted);
+}
+
+.image-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.85rem;
+}
+
+.image-detail-card {
+  display: block;
+}
